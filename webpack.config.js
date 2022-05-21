@@ -3,7 +3,9 @@ const path = require('path');
 module.exports = {
     mode: 'development',
     entry: {
-        weather: './src/weather.js'
+        index: './src/index.js',
+        weather: './src/modules/weather.js',
+        dom: './src/modules/dom.js'
     },
     devtool: 'inline-source-map',
     output: {
