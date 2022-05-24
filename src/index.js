@@ -4,4 +4,6 @@ import * as weather from './modules/weather'
 
 DOM.inputListener();
 
-weather.getWeatherData('Honolulu')
+const defaultCity = 'Honolulu';
+
+DOM.displayToday(defaultCity);

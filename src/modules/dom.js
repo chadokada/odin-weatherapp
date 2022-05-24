@@ -11,3 +11,7 @@ export function inputListener(){
     }
   });
 }
+
+export async function displayToday(city){
+  
+}
