@@ -44,17 +44,17 @@ async function getForecastCall(city, temp='f'){
   const coord = await getCoordinates(city);
   const unit = getUnits(temp);
   const apiCall = `https://api.openweathermap.org/data/2.5/onecall?`+
-    `lat=${coord.lat}&lon=${coord.lon}&units=${unit}&exclude=hourly&appid=`+
-    `df7eff60300fed02068626ac4dec5328`;
+    `lat=${coord.lat}&lon=${coord.lon}&units=${unit}&exclude=hourly,minutely`+
+    `&appid=`+`df7eff60300fed02068626ac4dec5328`;
   return apiCall;
 }
 
-export async function getWeatherData(city){ //rename more
+export async function getWeatherData(city, temp='f'){ //rename more
   try {
-    const apiCall = await getForecastCall(city);
+    const apiCall = await getForecastCall(city, temp);
     const response = await fetch(apiCall, {mode: 'cors'});
     const weatherData = await response.json();
-    console.log(weatherData); //delete when done
+    //console.log(weatherData); //delete when done
     return weatherData;
   } catch(error) {
     console.log(error);
