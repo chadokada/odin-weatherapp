@@ -8,7 +8,7 @@ export function displayCityName(cityName){
 
 export function displayCurrentWeather(data, unit){
   
-  console.log(data)
+  //console.log(data)
 
   const currentDate = document.querySelector('.current-date');
   currentDate.textContent = utils.unixToLongDate(data.current['dt']);
