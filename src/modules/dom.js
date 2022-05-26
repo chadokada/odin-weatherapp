@@ -6,6 +6,11 @@ export function displayCityName(cityName){
   city.textContent = cityName; 
 }
 
+export function setBackgroundImage(imgUrl){
+  const body = document.querySelector('body');
+  body.style.backgroundImage = `url(${imgUrl})`
+}
+
 export function displayCurrentWeather(data, unit){
   
   //console.log(data)
@@ -48,8 +53,9 @@ export function displayWeeklyWeather(data, unit){
     const day = document.querySelector(`#day${i}`);
     const dayDivs = day.children;
     dayDivs[0].src = utils.getWeatherImgSrc(dayData.weather[0]['main']);
-    dayDivs[1].textContent = utils.unixToDay(dayData['dt'])
-    dayDivs[2].textContent = utils.formatTemp(dayData.temp['max'], unit)
-    dayDivs[3].textContent = utils.formatTemp(dayData.temp['min'], unit)
+    dayDivs[1].textContent = utils.unixToMonthDate(dayData['dt'])
+    dayDivs[2].textContent = utils.unixToDay(dayData['dt'])
+    dayDivs[3].textContent = utils.formatTemp(dayData.temp['max'], unit)
+    dayDivs[4].textContent = utils.formatTemp(dayData.temp['min'], unit)
   }
 }

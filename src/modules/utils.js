@@ -49,9 +49,14 @@ export function unixToLongDate(unixDate){
   return format(date, 'PPPP p');
 }
 
+export function unixToMonthDate(unixDate){
+  const date = fromUnixTime(unixDate);
+  return format(date, 'MMM d');
+}
+
 export function unixToDay(unixDate){
   const date = fromUnixTime(unixDate);
-  return format(date, 'EEEE MMM d');
+  return format(date, 'EEEE');
 }
 
 export function toTitleCase(string){
@@ -64,4 +69,8 @@ export function toTitleCase(string){
     i != strings.length - 1 ? casedString = casedString + ' ' : null
   }
   return casedString;
+}
+
+export function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min) ) + min;
 }

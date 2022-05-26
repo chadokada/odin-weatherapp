@@ -2,41 +2,63 @@
 
 body{
     margin: 0;
-    padding: 0;
+    padding: 20px;
     box-sizing: border-box;
     height: 100vh;
     font-family: Roboto;
+    color: rgb(250, 250, 250);
+    font-weight: 500;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .container{
-  background-color: red;
   display: grid;
-  grid-template-columns: 1fr auto;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto 1fr auto;
   height: 100%;
-  overflow: hidden;
-}
-
-.user-input,
-.current-container,
-.forecast-container{
-  border: 1px solid;
+  overflow: auto;
 }
 
 .user-input{
   display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 5px;
+  align-items: center;
+  text-shadow: none;
+}
+
+input{
+  width: 250px;
+  background: transparent;
+  color: white;
+  border: 2px white solid;
+  border-radius: 20px;
+  padding-left: 10px;
+  height: 20px;
+  font-size: .95em;
+  font-weight: 500;
+  outline: none;
+}
+
+.fa-solid{
+  font-size: 1.3em;
+  /*
+  text-shadow: 1px 1px 2px rgb(25 25 25);
+  */
 }
 
 .current-container{
   display: grid;
   grid-template-rows: repeat(8, minmax(min-content, max-content));
   grid-template-columns: 100px auto;
+  text-shadow: 1px 1px 2px rgb(75 75 75);
   gap: 5px;
 }
 
 .city{
   grid-row: 1/2;
   grid-column: 1/3;
+  font-size: 3em;
 }
 
 .current-date{
@@ -93,22 +115,35 @@ body{
 
 .forecast-container{
   display: grid;
-  grid-column: 2/3;
-  grid-row: 1/3;
-  grid-template-rows: repeat(7, 1fr)
+  grid-row: 3/4;
+  gap: 5px;
+  font-weight: 600;
+  text-shadow: -1px 1px 5px rgb(25 25 25);
+  grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
 }
 
 .day-container{
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   column-gap: 10px;
   align-items: center;
   box-sizing: border-box;
-  width: 300px;
+}
+
+.month-date{
+  grid-row: 1/2;
+  grid-column: 2/4;
+}
+
+.day-name{
+  grid-row: 2/3;
+  grid-column: 2/4;
 }
 
 .day-container > img{
+  height: auto;
+  width: 75px;
   grid-column: 1/2;
   grid-row: 1/4;
 }

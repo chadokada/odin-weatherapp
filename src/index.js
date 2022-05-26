@@ -12,6 +12,8 @@ async function loadWeather(city, unit='f'){
     DOM.displayCurrentWeather(weatherData, unit);
     DOM.displayWeeklyWeather(weatherData.daily, unit);
     DOM.displayCityName(utils.toTitleCase(city));
+    const imgUrl = await weather.getBackground(city);
+    DOM.setBackgroundImage(imgUrl);
   } catch (error) {
     console.log(error);
   }
@@ -22,7 +24,7 @@ function inputListener(){
   const cityInput = document.querySelector('#city-input');
 
   cityInput.addEventListener('keypress', (event) => {
-    if (event.key == 'Enter'){
+    if (event.key == 'Enter' && cityInput.value != ''){
       loadWeather(cityInput.value)
       cityInput.value = '';
     }
@@ -30,6 +32,5 @@ function inputListener(){
 }
 
 inputListener();
-loadWeather(defaultCity)
+loadWeather(defaultCity);
 
-utils.toTitleCase("honolulu")
