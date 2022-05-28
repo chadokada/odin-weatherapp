@@ -7,12 +7,22 @@ import thunderstormSrc from '../images/thunderstorm.png';
 import {format, fromUnixTime} from 'date-fns';
 
 
+function getTempUnit(unit){
+  let tempUnit;
+  if (unit.toLowerCase() == 'imperial') {
+    tempUnit = 'f';
+  } else if (unit.toLowerCase() == 'metric') {
+    tempUnit = 'c';
+  }
+  return tempUnit;
+}
 
-export function formatTemp(temp, unit = 'f'){
+export function formatTemp(temp, unit = 'imperial'){
   // Returns temp rounded and as string
-  const unitStr = '°' + unit.toUpperCase();
+  const unitStr = '°' 
+  const tempUnit = getTempUnit(unit).toUpperCase();
 
-  return Math.round(temp).toString() +  unitStr;
+  return Math.round(temp).toString() + '°' + tempUnit;
 }
 
 export function formatPercent(number){
@@ -20,14 +30,13 @@ export function formatPercent(number){
   return Math.round(number).toString() + '%';
 }
 
-export function formatWindSpeed(windSpeed, unit = 'f'){
+export function formatWindSpeed(windSpeed, unit){
   let speedUnit = '';
-  if (unit = 'f'){
+  if (unit == 'imperial'){
     speedUnit = 'mph';
-  } else if (unit = 'c'){
+  } else if (unit == 'metric'){
     speedUnit = 'm/s';
   }
-
   return Math.round(windSpeed).toString() + ' ' + speedUnit;
 }
 

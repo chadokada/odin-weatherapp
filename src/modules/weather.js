@@ -23,7 +23,7 @@ async function getCoordinates(city){
       const weatherData = await response.json();
       return weatherData.coord;
     } else {
-      response.status == 404 ? console.log('City not found'):
+      response.status == 404 ? alert('City not found'):
         console.log('Some other error happened...');
     }
   } catch(error) {
@@ -31,31 +31,19 @@ async function getCoordinates(city){
   }
 }
 
-function getUnits(temp){
-  let unit;
-  if (temp.toLowerCase() == 'f') {
-    unit = 'imperial';
-  } else if (temp.toLowerCase() == 'c') {
-    unit = 'metric';
-  }
-  return unit;
-}
-
-async function getForecastCall(city, temp='f'){
+async function getForecastCall(city, unit='imperial'){
   const coord = await getCoordinates(city);
-  const unit = getUnits(temp);
   const apiCall = `https://api.openweathermap.org/data/2.5/onecall?`+
     `lat=${coord.lat}&lon=${coord.lon}&units=${unit}&exclude=hourly,minutely`+
     `&appid=`+`df7eff60300fed02068626ac4dec5328`;
   return apiCall;
 }
 
-export async function getWeatherData(city, temp='f'){ //rename more
+export async function getWeatherData(city, unit='imperial'){ //rename more
   try {
-    const apiCall = await getForecastCall(city, temp);
+    const apiCall = await getForecastCall(city, unit);
     const response = await fetch(apiCall, {mode: 'cors'});
     const weatherData = await response.json();
-    //console.log(weatherData); //delete when done
     return weatherData;
   } catch(error) {
     console.log(error);

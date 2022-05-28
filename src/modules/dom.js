@@ -1,4 +1,6 @@
 import * as utils from './utils';
+import * as storage from './storage';
+import * as weather from './weather'
 import {format, fromUnixTime} from 'date-fns';
 
 export function displayCityName(cityName){
@@ -6,15 +8,13 @@ export function displayCityName(cityName){
   city.textContent = cityName; 
 }
 
-export function setBackgroundImage(imgUrl){
+export async function setBackgroundImage(city){
+  const imgUrl = await weather.getBackground(city);
   const body = document.querySelector('body');
   body.style.backgroundImage = `url(${imgUrl})`
 }
 
 export function displayCurrentWeather(data, unit){
-  
-  //console.log(data)
-
   const currentDate = document.querySelector('.current-date');
   currentDate.textContent = utils.unixToLongDate(data.current['dt']);
 
@@ -23,9 +23,9 @@ export function displayCurrentWeather(data, unit){
 
   const currConditions = document.querySelector('.current-conditions');
   const currImg = document.querySelector('.current-img');
-  const weather = data.current.weather[0]['main'];
-  currConditions.textContent = weather
-  currImg.src = utils.getWeatherImgSrc(weather)
+  const weather = data.current.weather[0]['description'];
+  currConditions.textContent = utils.toTitleCase(weather);
+  currImg.src = utils.getWeatherImgSrc(data.current.weather[0]['main']);
 
   const currHigh = document.querySelector('.current-high');
   currHigh.textContent = utils.formatTemp(data.daily[0].temp['max'], unit);
@@ -44,7 +44,6 @@ export function displayCurrentWeather(data, unit){
 
   const wind = document.querySelector('.wind');
   wind.textContent = utils.formatWindSpeed(data.current.wind_speed, unit);
-
 }
 
 export function displayWeeklyWeather(data, unit){
@@ -57,5 +56,54 @@ export function displayWeeklyWeather(data, unit){
     dayDivs[2].textContent = utils.unixToDay(dayData['dt'])
     dayDivs[3].textContent = utils.formatTemp(dayData.temp['max'], unit)
     dayDivs[4].textContent = utils.formatTemp(dayData.temp['min'], unit)
+  }
+}
+
+export async function loadWeather(city, unit='imperial'){
+  try {
+    const weatherData = await weather.getWeatherData(city, unit);
+    storage.setCurrentCity(city);
+    displayCurrentWeather(weatherData, unit);
+    displayWeeklyWeather(weatherData.daily, unit);
+    displayCityName(utils.toTitleCase(city));
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function changeUnit(event){
+  const target = event.target
+  const currentCity = storage.getCurrentCity();
+
+  if (target.id == 'imperial' && target.className != 'unit-selected') {
+    const metric = document.querySelector('#metric');
+    toggleUnitClass(metric, target);
+    storage.setUnit('imperial');
+    loadWeather(currentCity, 'imperial');
+  } else if (target.id == 'metric' && target.className != 'unit-selected') {
+    const imperial = document.querySelector('#imperial');
+    toggleUnitClass(imperial, target);
+    storage.setUnit('metric');
+    loadWeather(currentCity, 'metric');
+  }
+}
+
+function toggleUnitClass(div1, div2){
+  div1.classList.toggle('unit');
+  div1.classList.toggle('unit-selected');
+  div2.classList.toggle('unit-selected');
+  div2.classList.toggle('unit');
+}
+
+export function highlightCurrentUnit(){
+  const unit = storage.getUnit();
+  const imperial = document.querySelector('#imperial');
+  const metric = document.querySelector('#metric');
+  if (unit == 'imperial') {
+    imperial.className = 'unit-selected';
+    metric.className = 'unit';
+  } else {
+    metric.className = 'unit-selected';
+    imperial.className = 'unit'
   }
 }

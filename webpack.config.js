@@ -6,7 +6,8 @@ module.exports = {
         index: './src/index.js',
         weather: './src/modules/weather.js',
         dom: './src/modules/dom.js',
-        utils: './src/modules/utils.js'
+        utils: './src/modules/utils.js',
+        storage: './src/modules/storage.js'
     },
     devtool: 'inline-source-map',
     output: {
